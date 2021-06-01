@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Empreses del sector logístic i IMD de les carreteres principals (vehicles/dia). Eix de la Riera de Caldes</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/proj4.js"></script>
+        <script src="js/proj4leaflet.js"></script>
+        <script src="data/Municipislimtrofs_0.js"></script>
+        <script src="data/EixRdC_1.js"></script>
+        <script src="data/PolgonsIndustrials_2.js"></script>
+        <script src="data/IMDtotalvehiclesdia_3.js"></script>
+        <script src="data/IMDvehiclespesantsdia_4.js"></script>
+        <script src="data/EmpresesSectorLogsticindetreballadors_5.js"></script>
+        <script>
+        var crs = new L.Proj.CRS('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs', {
+            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
+        });
+        var map = L.map('map', {
+            crs: crs,
+            continuousWorld: false,
+            worldCopyJump: false, 
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.43959233284493,1.7842554282531475],[41.72690723129605,2.5045230372588865]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_Municipislimtrofs_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NOMMUNI</th>\
+                        <td>' + (feature.properties['NOMMUNI'] !== null ? autolinker.link(feature.properties['NOMMUNI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Municipislimtrofs_0_0() {
+            return {
+                pane: 'pane_Municipislimtrofs_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,246,246,1.0)',
+                interactive: true,
+            }
+        }
+        function style_Municipislimtrofs_0_1() {
+            return {
+                pane: 'pane_Municipislimtrofs_0',
+                opacity: 1,
+                color: 'rgba(246,246,246,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Municipislimtrofs_0');
+        map.getPane('pane_Municipislimtrofs_0').style.zIndex = 400;
+        map.getPane('pane_Municipislimtrofs_0').style['mix-blend-mode'] = 'normal';
+        var layer_Municipislimtrofs_0 = new L.geoJson.multiStyle(json_Municipislimtrofs_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Municipislimtrofs_0',
+            layerName: 'layer_Municipislimtrofs_0',
+            pane: 'pane_Municipislimtrofs_0',
+            onEachFeature: pop_Municipislimtrofs_0,
+            styles: [style_Municipislimtrofs_0_0,style_Municipislimtrofs_0_1,]
+        });
+        bounds_group.addLayer(layer_Municipislimtrofs_0);
+        map.addLayer(layer_Municipislimtrofs_0);
+        function pop_EixRdC_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NOMMUNI</th>\
+                        <td>' + (feature.properties['NOMMUNI'] !== null ? autolinker.link(feature.properties['NOMMUNI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_EixRdC_1_0() {
+            return {
+                pane: 'pane_EixRdC_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(199,199,199,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_EixRdC_1');
+        map.getPane('pane_EixRdC_1').style.zIndex = 401;
+        map.getPane('pane_EixRdC_1').style['mix-blend-mode'] = 'normal';
+        var layer_EixRdC_1 = new L.geoJson(json_EixRdC_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_EixRdC_1',
+            layerName: 'layer_EixRdC_1',
+            pane: 'pane_EixRdC_1',
+            onEachFeature: pop_EixRdC_1,
+            style: style_EixRdC_1_0,
+        });
+        bounds_group.addLayer(layer_EixRdC_1);
+        map.addLayer(layer_EixRdC_1);
+        function pop_PolgonsIndustrials_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NomPolInd</th>\
+                        <td>' + (feature.properties['NomPolInd'] !== null ? autolinker.link(feature.properties['NomPolInd'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PolgonsIndustrials_2_0() {
+            return {
+                pane: 'pane_PolgonsIndustrials_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(118,170,170,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_PolgonsIndustrials_2');
+        map.getPane('pane_PolgonsIndustrials_2').style.zIndex = 402;
+        map.getPane('pane_PolgonsIndustrials_2').style['mix-blend-mode'] = 'normal';
+        var layer_PolgonsIndustrials_2 = new L.geoJson(json_PolgonsIndustrials_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PolgonsIndustrials_2',
+            layerName: 'layer_PolgonsIndustrials_2',
+            pane: 'pane_PolgonsIndustrials_2',
+            onEachFeature: pop_PolgonsIndustrials_2,
+            style: style_PolgonsIndustrials_2_0,
+        });
+        bounds_group.addLayer(layer_PolgonsIndustrials_2);
+        map.addLayer(layer_PolgonsIndustrials_2);
+        function pop_IMDtotalvehiclesdia_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CODIVIA</th>\
+                        <td>' + (feature.properties['CODIVIA'] !== null ? autolinker.link(feature.properties['CODIVIA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMD_2019</th>\
+                        <td>' + (feature.properties['IMD_2019'] !== null ? autolinker.link(feature.properties['IMD_2019'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMDLLEUGER</th>\
+                        <td>' + (feature.properties['IMDLLEUGER'] !== null ? autolinker.link(feature.properties['IMDLLEUGER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMDPESANTS</th>\
+                        <td>' + (feature.properties['IMDPESANTS'] !== null ? autolinker.link(feature.properties['IMDPESANTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_IMDtotalvehiclesdia_3_0(feature) {
+            if (feature.properties['IMD_2019'] >= 0.000000 && feature.properties['IMD_2019'] <= 0.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 0.000000 && feature.properties['IMD_2019'] <= 2000.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(125,139,143,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 2000.000000 && feature.properties['IMD_2019'] <= 5000.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(254,159,109,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 5000.000000 && feature.properties['IMD_2019'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(222,73,105,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 10000.000000 && feature.properties['IMD_2019'] <= 20000.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(140,41,129,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 20000.000000 && feature.properties['IMD_2019'] <= 40000.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(59,15,111,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMD_2019'] >= 40000.000000 && feature.properties['IMD_2019'] <= 125785.000000 ) {
+                return {
+                pane: 'pane_IMDtotalvehiclesdia_3',
+                opacity: 1,
+                color: 'rgba(0,0,4,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_IMDtotalvehiclesdia_3');
+        map.getPane('pane_IMDtotalvehiclesdia_3').style.zIndex = 403;
+        map.getPane('pane_IMDtotalvehiclesdia_3').style['mix-blend-mode'] = 'normal';
+        var layer_IMDtotalvehiclesdia_3 = new L.geoJson(json_IMDtotalvehiclesdia_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_IMDtotalvehiclesdia_3',
+            layerName: 'layer_IMDtotalvehiclesdia_3',
+            pane: 'pane_IMDtotalvehiclesdia_3',
+            onEachFeature: pop_IMDtotalvehiclesdia_3,
+            style: style_IMDtotalvehiclesdia_3_0,
+        });
+        bounds_group.addLayer(layer_IMDtotalvehiclesdia_3);
+        map.addLayer(layer_IMDtotalvehiclesdia_3);
+        function pop_IMDvehiclespesantsdia_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CODIVIA</th>\
+                        <td>' + (feature.properties['CODIVIA'] !== null ? autolinker.link(feature.properties['CODIVIA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMD_2019</th>\
+                        <td>' + (feature.properties['IMD_2019'] !== null ? autolinker.link(feature.properties['IMD_2019'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMDLLEUGER</th>\
+                        <td>' + (feature.properties['IMDLLEUGER'] !== null ? autolinker.link(feature.properties['IMDLLEUGER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IMDPESANTS</th>\
+                        <td>' + (feature.properties['IMDPESANTS'] !== null ? autolinker.link(feature.properties['IMDPESANTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_IMDvehiclespesantsdia_4_0(feature) {
+            if (feature.properties['IMDPESANTS'] >= 0.000000 && feature.properties['IMDPESANTS'] <= 0.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMDPESANTS'] >= 1.000000 && feature.properties['IMDPESANTS'] <= 1000.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(2,36,225,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMDPESANTS'] >= 1000.000000 && feature.properties['IMDPESANTS'] <= 5000.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(2,36,225,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMDPESANTS'] >= 5000.000000 && feature.properties['IMDPESANTS'] <= 10000.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(2,36,225,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMDPESANTS'] >= 10000.000000 && feature.properties['IMDPESANTS'] <= 20000.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(2,36,225,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 6.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+            if (feature.properties['IMDPESANTS'] >= 20000.000000 && feature.properties['IMDPESANTS'] <= 30000.000000 ) {
+                return {
+                pane: 'pane_IMDvehiclespesantsdia_4',
+                opacity: 1,
+                color: 'rgba(2,36,225,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_IMDvehiclespesantsdia_4');
+        map.getPane('pane_IMDvehiclespesantsdia_4').style.zIndex = 404;
+        map.getPane('pane_IMDvehiclespesantsdia_4').style['mix-blend-mode'] = 'normal';
+        var layer_IMDvehiclespesantsdia_4 = new L.geoJson(json_IMDvehiclespesantsdia_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_IMDvehiclespesantsdia_4',
+            layerName: 'layer_IMDvehiclespesantsdia_4',
+            pane: 'pane_IMDvehiclespesantsdia_4',
+            onEachFeature: pop_IMDvehiclespesantsdia_4,
+            style: style_IMDvehiclespesantsdia_4_0,
+        });
+        bounds_group.addLayer(layer_IMDvehiclespesantsdia_4);
+        map.addLayer(layer_IMDvehiclespesantsdia_4);
+        function pop_EmpresesSectorLogsticindetreballadors_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NIF</th>\
+                        <td>' + (feature.properties['NIF'] !== null ? autolinker.link(feature.properties['NIF'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOM</th>\
+                        <td>' + (feature.properties['NOM'] !== null ? autolinker.link(feature.properties['NOM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOM_FISCAL</th>\
+                        <td>' + (feature.properties['NOM_FISCAL'] !== null ? autolinker.link(feature.properties['NOM_FISCAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MUNICIPI</th>\
+                        <td>' + (feature.properties['MUNICIPI'] !== null ? autolinker.link(feature.properties['MUNICIPI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">POL_IND</th>\
+                        <td>' + (feature.properties['POL_IND'] !== null ? autolinker.link(feature.properties['POL_IND'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DIRECCIO</th>\
+                        <td>' + (feature.properties['DIRECCIO'] !== null ? autolinker.link(feature.properties['DIRECCIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SEC_CNAE</th>\
+                        <td>' + (feature.properties['SEC_CNAE'] !== null ? autolinker.link(feature.properties['SEC_CNAE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SUBS_ACTIV</th>\
+                        <td>' + (feature.properties['SUBS_ACTIV'] !== null ? autolinker.link(feature.properties['SUBS_ACTIV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DESCR_ACT</th>\
+                        <td>' + (feature.properties['DESCR_ACT'] !== null ? autolinker.link(feature.properties['DESCR_ACT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">N_TREB</th>\
+                        <td>' + (feature.properties['N_TREB'] !== null ? autolinker.link(feature.properties['N_TREB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FACTURACIO</th>\
+                        <td>' + (feature.properties['FACTURACIO'] !== null ? autolinker.link(feature.properties['FACTURACIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LONGITUD</th>\
+                        <td>' + (feature.properties['LONGITUD'] !== null ? autolinker.link(feature.properties['LONGITUD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LATITUD</th>\
+                        <td>' + (feature.properties['LATITUD'] !== null ? autolinker.link(feature.properties['LATITUD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_EmpresesSectorLogsticindetreballadors_5_0(feature) {
+            if (feature.properties['N_TREB'] >= 0.000000 && feature.properties['N_TREB'] <= 0.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 2.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 1.000000 && feature.properties['N_TREB'] <= 30.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 3.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 30.000000 && feature.properties['N_TREB'] <= 60.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 60.000000 && feature.properties['N_TREB'] <= 90.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 5.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 90.000000 && feature.properties['N_TREB'] <= 120.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 120.000000 && feature.properties['N_TREB'] <= 200.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 7.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['N_TREB'] >= 200.000000 && feature.properties['N_TREB'] <= 250.000000 ) {
+                return {
+                pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_EmpresesSectorLogsticindetreballadors_5');
+        map.getPane('pane_EmpresesSectorLogsticindetreballadors_5').style.zIndex = 405;
+        map.getPane('pane_EmpresesSectorLogsticindetreballadors_5').style['mix-blend-mode'] = 'normal';
+        var layer_EmpresesSectorLogsticindetreballadors_5 = new L.geoJson(json_EmpresesSectorLogsticindetreballadors_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_EmpresesSectorLogsticindetreballadors_5',
+            layerName: 'layer_EmpresesSectorLogsticindetreballadors_5',
+            pane: 'pane_EmpresesSectorLogsticindetreballadors_5',
+            onEachFeature: pop_EmpresesSectorLogsticindetreballadors_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_EmpresesSectorLogsticindetreballadors_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_EmpresesSectorLogsticindetreballadors_5);
+        map.addLayer(layer_EmpresesSectorLogsticindetreballadors_5);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Empreses del sector logístic i IMD de les carreteres principals (vehicles/dia). Eix de la Riera de Caldes</h2>';
+            };
+            title.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Empreses Sector Logístic i nº de treballadors<br /><table><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_sensedades0.png" /></td><td>sense dades</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_30treballadors1.png" /></td><td>< 30 treballadors</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_3060treballadors2.png" /></td><td>30 - 60 treballadors</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_6090treballadors3.png" /></td><td>60 - 90 treballadors</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_90120treballadors4.png" /></td><td>90 - 120 treballadors</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_120200treballadors5.png" /></td><td>120 - 200 treballadors</td></tr><tr><td style="text-align: center;"><img src="legend/EmpresesSectorLogsticindetreballadors_5_200250treballadors6.png" /></td><td>200 - 250 treballadors</td></tr></table>': layer_EmpresesSectorLogsticindetreballadors_5,'IMD (vehicles pesants/dia)<br /><table><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_sensedades0.png" /></td><td>sense dades</td></tr><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_10001.png" /></td><td>< 1.000</td></tr><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_100050002.png" /></td><td>1.000 - 5.000</td></tr><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_5000100003.png" /></td><td>5.000 - 10.000</td></tr><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_10000200004.png" /></td><td>10.000 - 20.000</td></tr><tr><td style="text-align: center;"><img src="legend/IMDvehiclespesantsdia_4_200005.png" /></td><td>> 20.000</td></tr></table>': layer_IMDvehiclespesantsdia_4,'IMD total (vehicles/dia)<br /><table><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_sensedades0.png" /></td><td>sense dades</td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_20001.png" /></td><td>< 2.000 </td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_200050002.png" /></td><td>2.000 - 5.000 </td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_5000100003.png" /></td><td>5.000 - 10.000 </td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_10000200004.png" /></td><td>10.000 - 20.000 </td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_20000400005.png" /></td><td>20.000 - 40.000 </td></tr><tr><td style="text-align: center;"><img src="legend/IMDtotalvehiclesdia_3_400006.png" /></td><td>> 40.000</td></tr></table>': layer_IMDtotalvehiclesdia_3,'<img src="legend/PolgonsIndustrials_2.png" /> Polígons Industrials': layer_PolgonsIndustrials_2,'<img src="legend/EixRdC_1.png" /> Eix RdC': layer_EixRdC_1,'<img src="legend/Municipislimtrofs_0.png" /> Municipis limítrofs': layer_Municipislimtrofs_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_IMDtotalvehiclesdia_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['CODIVIA'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['CODIVIA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_IMDtotalvehiclesdia_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_IMDvehiclespesantsdia_4.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['CODIVIA'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['CODIVIA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_IMDvehiclespesantsdia_4'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_IMDtotalvehiclesdia_3,layer_IMDvehiclespesantsdia_4]);
+        map.on("zoomend", function(){
+            resetLabels([layer_IMDtotalvehiclesdia_3,layer_IMDvehiclespesantsdia_4]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_IMDtotalvehiclesdia_3,layer_IMDvehiclespesantsdia_4]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_IMDtotalvehiclesdia_3,layer_IMDvehiclespesantsdia_4]);
+        });
+        </script>
+    </body>
+</html>
