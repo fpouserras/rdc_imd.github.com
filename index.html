@@ -42,15 +42,9 @@
         <script src="data/IMDvehiclespesantsdia_4.js"></script>
         <script src="data/EmpresesSectorLogsticindetreballadors_5.js"></script>
         <script>
-        var crs = new L.Proj.CRS('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs', {
-            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
-        });
         var map = L.map('map', {
-            crs: crs,
-            continuousWorld: false,
-            worldCopyJump: false, 
-            zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[41.43959233284493,1.7842554282531475],[41.72690723129605,2.5045230372588865]]);            
+                    zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.43959233284493,1.7842554282531475],[41.72690723129605,2.5045230372588865]]);
         var BaseMapCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
@@ -94,7 +88,7 @@
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.2,
                 fillColor: 'rgba(246,246,246,1.0)',
                 interactive: true,
             }
@@ -146,7 +140,7 @@
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.3,
                 fillColor: 'rgba(199,199,199,1.0)',
                 interactive: true,
             }
@@ -185,7 +179,7 @@
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.3,
                 fillColor: 'rgba(118,170,170,1.0)',
                 interactive: true,
             }
